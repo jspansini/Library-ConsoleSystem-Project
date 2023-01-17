@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Livraria.Models
 {
-    public interface IProduto
+    internal class Cliente : Pessoa
     {
+        public string Endereco { get; set; }
+        public string Email { get; set; }
     }
 }
