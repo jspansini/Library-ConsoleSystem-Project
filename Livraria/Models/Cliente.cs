@@ -10,5 +10,11 @@ namespace Livraria.Models
     {
         public string Endereco { get; set; }
         public string Email { get; set; }
+
+        public Cliente(string nome, string sobrenome, string cpf, int idade, string endereco, string email) : base(nome, sobrenome, cpf, idade)
+        {
+            Endereco = endereco;
+            Email = email;
+        }
     }
 }

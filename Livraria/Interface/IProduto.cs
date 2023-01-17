@@ -11,6 +11,7 @@ namespace Livraria.Interface
     {
         int Id { get; set; }
         string Titulo { get; set; }
+        string Autor { get; set; }
         string Editora { get; set; }
         int AnoPublicacao { get; set; }
         string ISBN { get; set; }

@@ -12,5 +12,13 @@ namespace Livraria.Models
         public string Sobrenome { get; set; }
         public string CPF { get; set; }
         public int Idade { get; set; }
+
+        public Pessoa(string nome, string sobrenome, string cpf, int idade)
+        {
+            Nome = nome;
+            Sobrenome = sobrenome;
+            CPF = cpf;
+            Idade = idade;
+        }
     }
 }
