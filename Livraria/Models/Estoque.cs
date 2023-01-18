@@ -75,8 +75,6 @@ namespace Livraria.Models
                 Console.WriteLine("Insira uma opção válida!");
             }                         
         }
-
-        //TODO implementar acoes
         public void ConsultarEstoque()
         {
             Console.Clear();
@@ -87,11 +85,43 @@ namespace Livraria.Models
                 Console.WriteLine();
             }
         }
-
-        //TODO implementar parametros
+        public void ConsultarEstoquePorTitulo()
+        {
+            Console.WriteLine("Insira o nome do título: ");
+            string nome = Validacao.StringV();
+            foreach (IProduto n in ProdutosEmEstoque)
+            {
+                if (n.Titulo == nome)
+                {
+                    Log.ImprimirInformacoes(n);
+                }
+                else
+                    Console.WriteLine("Não temos o titulo '{0}' em estoque", nome);
+            }
+        }
         public void RealizarVenda(Cliente c)
         {
+            Console.WriteLine("Insira o título do produto: ");
+            string nome = Validacao.StringV();
+            foreach( IProduto n in ProdutosEmEstoque)
+            {
+                if(n.Titulo == nome)
+                {
+                    Console.WriteLine("Venda concluída com sucesso");
+                    if (n.tipoProduto == Enum.TipoProduto.Livro)
+                    {
+                        n.EnviarLivro(c.Endereco);
+                        ProdutosEmEstoque.Remove(n);
+                    }
+                    else
+                    {
+                        n.EnviarLivro(c.Email);
+                    }
 
+                }
+                else
+                    Console.WriteLine("Não temos o titulo '{0}' em estoque", nome);
+            }
         }
 
         public void CadastroInicial()
