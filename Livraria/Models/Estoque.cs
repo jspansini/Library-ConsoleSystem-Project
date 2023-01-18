@@ -16,27 +16,27 @@ namespace Livraria.Models
         {
             Console.WriteLine("(1) - Livro");
             Console.WriteLine("(2) - Ebook");
-            int input = int.Parse(Console.ReadLine());
+            int input = Validacao.IntV();
 
             if (input == 1)
             {
                 Console.WriteLine("Insira o título:");
-                string titulo = Console.ReadLine();
+                string titulo = Validacao.StringV();
 
                 Console.WriteLine("Insira o autor:");
-                string autor = Console.ReadLine();
+                string autor = Validacao.StringV();
 
                 Console.WriteLine("Insira a editora:");
-                string editora = Console.ReadLine(); 
+                string editora = Validacao.StringV(); 
                 
                 Console.WriteLine("Insira o ano de publicação:");
-                int anoPublicacao = int.Parse(Console.ReadLine());
+                int anoPublicacao = Validacao.IntV();
 
                 Console.WriteLine("Insira o ISBN do livro:");
-                string isbn = Console.ReadLine();
+                string isbn = Validacao.StringV();
 
                 Console.WriteLine("Insira o preço do livro:");
-                double preco = double.Parse(Console.ReadLine());
+                double preco = Validacao.DoubleV();
 
                 IProduto produto = new Livro(id, titulo, autor , editora, anoPublicacao, isbn, preco);
                 ProdutosEmEstoque.Add(produto);
@@ -47,22 +47,22 @@ namespace Livraria.Models
             else if (input == 2)
             {
                 Console.WriteLine("Insira o título:");
-                string titulo = Console.ReadLine();
+                string titulo = Validacao.StringV();
 
                 Console.WriteLine("Insira o autor:");
-                string autor = Console.ReadLine();
+                string autor = Validacao.StringV();
 
                 Console.WriteLine("Insira a editora:");
-                string editora = Console.ReadLine();
+                string editora = Validacao.StringV();
 
                 Console.WriteLine("Insira o ano de publicação:");
-                int anoPublicacao = int.Parse(Console.ReadLine());
+                int anoPublicacao = Validacao.IntV();
 
                 Console.WriteLine("Insira o ISBN do livro:");
-                string isbn = Console.ReadLine();
+                string isbn = Validacao.StringV();
 
                 Console.WriteLine("Insira o preço do livro:");
-                double preco = double.Parse(Console.ReadLine());
+                double preco = Validacao.DoubleV();
 
                 IProduto produto = new Ebook(id, titulo, autor, editora, anoPublicacao, isbn, preco);
                 ProdutosEmEstoque.Add(produto);
