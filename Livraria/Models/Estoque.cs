@@ -40,7 +40,7 @@ namespace Livraria.Models
 
                 IProduto produto = new Livro(id, titulo, autor , editora, anoPublicacao, isbn, preco);
                 ProdutosEmEstoque.Add(produto);
-                id++;
+                ++id;
                 Console.Clear();
                 Console.WriteLine($"O livro {produto.Titulo} foi adicionado.");
             }
@@ -66,7 +66,7 @@ namespace Livraria.Models
 
                 IProduto produto = new Ebook(id, titulo, autor, editora, anoPublicacao, isbn, preco);
                 ProdutosEmEstoque.Add(produto);
-                id++;
+                ++id;
                 Console.Clear();
                 Console.WriteLine($"O ebook {produto.Titulo} foi adicionado.");
             }
@@ -85,43 +85,68 @@ namespace Livraria.Models
                 Console.WriteLine();
             }
         }
+        //TODO pensar como voltar a mensagem de livro não encontrado
         public void ConsultarEstoquePorTitulo()
-        {
+        {            
             Console.WriteLine("Insira o nome do título: ");
             string nome = Validacao.StringV();
+            
             foreach (IProduto n in ProdutosEmEstoque)
             {
-                if (n.Titulo == nome)
+                if (n.Titulo.ToUpper() == nome.ToUpper())
                 {
                     Log.ImprimirInformacoes(n);
-                }
-                else
-                    Console.WriteLine("Não temos o titulo '{0}' em estoque", nome);
+                }                                 
             }
-        }
-        public void RealizarVenda(Cliente c)
-        {
-            Console.WriteLine("Insira o título do produto: ");
-            string nome = Validacao.StringV();
-            foreach( IProduto n in ProdutosEmEstoque)
-            {
-                if(n.Titulo == nome)
-                {
-                    Console.WriteLine("Venda concluída com sucesso");
-                    if (n.tipoProduto == Enum.TipoProduto.Livro)
-                    {
-                        n.EnviarLivro(c.Endereco);
-                        ProdutosEmEstoque.Remove(n);
-                    }
-                    else
-                    {
-                        n.EnviarLivro(c.Email);
-                    }
+            
+            
 
+        }
+        //TODO PENSAR COMO MOSTRAR QUE NÃO ENCONTROU O PRODUTO NO ESTOQUE
+        public void RealizarVenda(List<Cliente> clientes, Funcionario funcionario, Estoque estoque)
+        {
+            Console.WriteLine("Insira o nome do cliente: ");
+            string nomeCliente = Console.ReadLine();
+            bool clienteEncontrado = false;
+            Cliente cliente = new();
+            foreach(Cliente c in clientes)
+            {
+                if (nomeCliente.ToUpper() == c.Nome.ToUpper())
+                {                    
+                    clienteEncontrado = true;
+                    cliente = c;
                 }
-                else
-                    Console.WriteLine("Não temos o titulo '{0}' em estoque", nome);
             }
+            if (clienteEncontrado == false)
+            {
+                Console.WriteLine("Cliente não encontrado!");
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine($"Cliente {cliente.Nome} encontrado!\n");
+                Console.WriteLine("Insira o título do produto: ");
+                string nome = Validacao.StringV();
+                foreach (IProduto n in estoque.ProdutosEmEstoque.ToList())
+                {
+                    if (n.Titulo.ToUpper() == nome.ToUpper())
+                    {
+                        Console.WriteLine($"\n\nPreço do produto: {n.Preco.ToString("0.00")}R$");
+                        Console.WriteLine("Venda concluída com sucesso");
+                        if (n.tipoProduto == Enum.TipoProduto.Livro)
+                        {
+                            n.EnviarLivro(cliente.Endereco);
+                            estoque.ProdutosEmEstoque.Remove(n);
+                        }
+                        else
+                        {
+                            n.EnviarLivro(cliente.Email);
+                        }
+                        funcionario.RegistrarComissao(n.Preco);
+                    }                    
+                }
+            }
+            
         }
 
         public void CadastroInicial()
@@ -145,7 +170,7 @@ namespace Livraria.Models
             Livro l9 = new Livro(this.id, "A Lógica da Pesquisa Científica", "Karl Popper", "Cultrix", 2015, "978-8531612503", 55.44);
             this.id++;
             Ebook l10 = new Ebook(this.id, "Sociedade do Cansaço", "Byung-Chul Han", "Vozes", 2015, "978-8532649966", 8.99);
-
+            this.id++;
             ProdutosEmEstoque.Add(l1);
             ProdutosEmEstoque.Add(l2);
             ProdutosEmEstoque.Add(l3);

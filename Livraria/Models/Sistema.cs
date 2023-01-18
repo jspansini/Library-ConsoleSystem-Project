@@ -11,10 +11,12 @@ namespace Livraria.Models
         //TODO implementar metodo
         public static void RealizarLogin(Funcionario funcionario)
         {
-            bool verif = false;
+            Console.Clear();
+            bool checkLogin = false;
             do
             {
-                Console.WriteLine("Insira o login: ");
+                Console.WriteLine("** Livraria Sinqiars **\nFaça login");
+                Console.WriteLine("\nInsira o username: ");
                 string login = Validacao.StringV();
                 if (funcionario.Login == login)
                 {
@@ -23,7 +25,7 @@ namespace Livraria.Models
                     if (funcionario.Senha == senha)
                     {
                         Console.WriteLine("Seja bem vindo!");
-                        verif = true;
+                        checkLogin = true;
                     }
                     else
                     {
@@ -34,17 +36,15 @@ namespace Livraria.Models
                 {
                     Console.WriteLine("Usuário incorreto! tente novamente");
                 }
-            } while (verif == false);
+            } while (checkLogin == false);
         }
         
         //TODO implementar metodo
         public static Cliente RegistrarCliente()
         {
-            Console.WriteLine("Insira o nome:");
-            string nome = Validacao.StringV();
-            Console.WriteLine("Insira o sobrenome:");
-            string sobrenome = Validacao.StringV();
-            Console.WriteLine("Insira o cpf:");
+            Console.WriteLine("Insira o nome e sobrenome:");
+            string nome = Validacao.StringV();            
+            Console.WriteLine("Insira o cpf: (Apenas números)");
             string cpf = Validacao.CPF();
             Console.WriteLine("Insira a idade:");
             int idade = Validacao.IntV();
@@ -53,17 +53,21 @@ namespace Livraria.Models
             Console.WriteLine("Insira o email:");
             string email = Validacao.StringV();
 
-            Cliente cliente = new Cliente(nome, sobrenome, cpf, idade, endereco, email);
+            Cliente cliente = new Cliente(nome, cpf, idade, endereco, email);
             
             return cliente;
         }
 
         public static int Menu()
         {
+            Console.Clear();
+            Console.WriteLine("Livraria Sinqiers");
             Console.WriteLine("(1) - Cadastrar Cliente ");
             Console.WriteLine("(2) - Cadastrar Produto ");
             Console.WriteLine("(3) - Realizar venda ");
             Console.WriteLine("(4) - Consultar estoque ");
+            Console.WriteLine("(5) - Consultar estoque por título ");
+            Console.WriteLine("(6) - Consultar comissões do funcionario ");
             Console.WriteLine("(0) - Sair ");
 
             int input;
@@ -72,8 +76,11 @@ namespace Livraria.Models
             {
                 checkInput = int.TryParse(Console.ReadLine(), out input);
                 if (checkInput == false)
+                {
                     Console.WriteLine("Digite uma opção válida: ");
-                else if (input > 5 && input <0)
+                }
+                    
+                else if (input > 6 && input <0)
                 {
                     Console.WriteLine("Opção digitada não existe! Digite uma opção válida: ");
                     checkInput = false;
@@ -82,32 +89,37 @@ namespace Livraria.Models
 
             return input;
         }
+
+
         //TODO Finalizar Busca cliente
-        //public static Cliente BuscarCliente( List<Cliente> clientes)
+        //public static Cliente ChecarClienteValido(List<Cliente> clientes)
         //{
-        //    Cliente c ;
-        //    do
+        //    Cliente cliente = BuscarCliente(clientes);
+        //    if (cliente.Nome == "")
         //    {
-        //        Console.WriteLine("Qual o nome do cliente: ");
-        //        string cliente = Validacao.StringV();
-        //        foreach (Cliente n in clientes)
-        //            if (n.Nome == cliente)
-        //            {
-        //                c = n;
-        //            }
-
-        //    } while (c == null);
-        //    return c;
-        //}
-
-        //public static void LeituraInput(int input)
-        //{
-        //    switch (input)
-        //    {
-        //        case 1:
-                   
+        //        return cliente;
         //    }
-                
+        //    else
+        //    {
+        //        throw new Exception("Cliente inexistente");
+               
+        //    }
         //}
+        public static Cliente BuscarCliente(List<Cliente> clientes)
+        {
+           string nomeCliente;
+           Cliente cliente = new Cliente();                
+           Console.WriteLine("Qual o nome do cliente: (Digite SAIR para cancelar)");
+           nomeCliente = Validacao.StringV();
+           foreach (Cliente c in clientes)
+           {
+               if (c.Nome == nomeCliente)
+               {
+                   cliente = c;
+                   return cliente;
+               }                   
+           }                                            
+            return cliente;
+        }                 
     }
 }

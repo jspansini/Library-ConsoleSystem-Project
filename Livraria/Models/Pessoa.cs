@@ -9,14 +9,14 @@ namespace Livraria.Models
     public abstract class Pessoa
     {
         public string Nome { get; set; }
-        public string Sobrenome { get; set; }
+        
         public string CPF { get; set; }
         public int Idade { get; set; }
 
-        public Pessoa(string nome, string sobrenome, string cpf, int idade)
+        public Pessoa() { }
+        public Pessoa(string nome, string cpf, int idade)
         {
-            Nome = nome;
-            Sobrenome = sobrenome;
+            Nome = nome;           
             CPF = cpf;
             Idade = idade;
         }
