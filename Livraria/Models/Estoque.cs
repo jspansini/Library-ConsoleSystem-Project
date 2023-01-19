@@ -85,24 +85,24 @@ namespace Livraria.Models
                 Console.WriteLine();
             }
         }
-        //TODO pensar como voltar a mensagem de livro não encontrado
         public void ConsultarEstoquePorTitulo()
         {            
             Console.WriteLine("Insira o nome do título: ");
             string nome = Validacao.StringV();
-            
+            bool v = false;
             foreach (IProduto n in ProdutosEmEstoque)
             {
                 if (n.Titulo.ToUpper() == nome.ToUpper())
                 {
                     Log.ImprimirInformacoes(n);
+                    v = true;
                 }                                 
             }
-            
-            
-
+            if (v == false)
+            {
+                Console.WriteLine("Produto não encontrado em estoque. ");
+            }
         }
-        //TODO PENSAR COMO MOSTRAR QUE NÃO ENCONTROU O PRODUTO NO ESTOQUE
         public void RealizarVenda(List<Cliente> clientes, Funcionario funcionario, Estoque estoque)
         {
             Console.WriteLine("Insira o nome do cliente: ");
@@ -127,11 +127,13 @@ namespace Livraria.Models
                 Console.WriteLine($"Cliente {cliente.Nome} encontrado!\n");
                 Console.WriteLine("Insira o título do produto: ");
                 string nome = Validacao.StringV();
+                bool v = false;
                 foreach (IProduto n in estoque.ProdutosEmEstoque.ToList())
                 {
                     if (n.Titulo.ToUpper() == nome.ToUpper())
                     {
-                        Console.WriteLine($"\n\nPreço do produto: {n.Preco.ToString("0.00")}R$");
+                        v = true;
+                        Console.WriteLine($"\n\nPreço do produto: {Validacao.Real(n.Preco)}");
                         Console.WriteLine("Venda concluída com sucesso");
                         if (n.tipoProduto == Enum.TipoProduto.Livro)
                         {
@@ -142,8 +144,12 @@ namespace Livraria.Models
                         {
                             n.EnviarLivro(cliente.Email);
                         }
-                        funcionario.RegistrarComissao(n.Preco);
-                    }                    
+                        funcionario.RegistrarComissao(n.Preco);                        
+                    }
+                }
+                if (v == false)
+                {
+                    Console.WriteLine("Produto em falta no estoque! ");
                 }
             }
             
